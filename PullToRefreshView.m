@@ -61,6 +61,7 @@
 }
 
 - (id)initWithScrollView:(UIScrollView *)scroll {
+    _firstRefresh = YES;
     CGRect frame = CGRectMake(0.0f, 0.0f - scroll.bounds.size.height, scroll.bounds.size.width, scroll.bounds.size.height);
     
     if ((self = [super initWithFrame:frame])) {
@@ -141,6 +142,9 @@
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     [formatter setTimeStyle:NSDateFormatterMediumStyle];
     lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:date]];
+    if (_firstRefresh == YES) {
+        _firstRefresh = NO;
+    }
 }
 
 - (void)setState:(PullToRefreshViewState)state_ {
@@ -158,7 +162,9 @@
 			statusLabel.text = @"Pull down to refresh...";
 			[self showActivity:NO animated:NO];
             [self setImageFlipped:NO];
-			[self refreshLastUpdatedDate];
+            if (!scrollView.isDragging) {
+                [self refreshLastUpdatedDate];
+            }
             scrollView.contentInset = UIEdgeInsetsZero;
 			break;
             
@@ -186,7 +192,7 @@
             } else if (state == PullToRefreshViewStateNormal) {
                 if (scrollView.contentOffset.y < -65.0f)
                     [self setState:PullToRefreshViewStateReady];
-                if (scrollView.isDecelerating) {
+                if (!scrollView.isTracking) {
                     [self.layer setHidden:YES];
                 } else {
                     [self.layer setHidden:NO];

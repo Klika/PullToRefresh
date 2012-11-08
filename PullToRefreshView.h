@@ -47,6 +47,9 @@ typedef enum {
 	UILabel *statusLabel;
 	CALayer *arrowImage;
 	UIActivityIndicatorView *activityView;
+    
+    // Testing for first refresh
+    BOOL _firstRefresh;
 }
 
 @property (nonatomic, strong) UIScrollView *scrollView;
