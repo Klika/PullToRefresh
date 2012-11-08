@@ -186,6 +186,11 @@
             } else if (state == PullToRefreshViewStateNormal) {
                 if (scrollView.contentOffset.y < -65.0f)
                     [self setState:PullToRefreshViewStateReady];
+                if (scrollView.isDecelerating) {
+                    [self.layer setHidden:YES];
+                } else {
+                    [self.layer setHidden:NO];
+                }
             } else if (state == PullToRefreshViewStateLoading) {
                 if (scrollView.contentOffset.y >= 0)
                     scrollView.contentInset = UIEdgeInsetsZero;
