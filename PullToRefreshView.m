@@ -61,7 +61,6 @@
 }
 
 - (id)initWithScrollView:(UIScrollView *)scroll {
-    _firstRefresh = YES;
     CGRect frame = CGRectMake(0.0f, 0.0f - scroll.bounds.size.height, scroll.bounds.size.width, scroll.bounds.size.height);
     
     if ((self = [super initWithFrame:frame])) {
@@ -78,7 +77,7 @@
 		lastUpdatedLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
 		lastUpdatedLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		lastUpdatedLabel.backgroundColor = [UIColor clearColor];
-		lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
+		lastUpdatedLabel.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:lastUpdatedLabel];
         
 		statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 48.0f, self.frame.size.width, 20.0f)];
@@ -88,7 +87,7 @@
 		statusLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
 		statusLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		statusLabel.backgroundColor = [UIColor clearColor];
-		statusLabel.textAlignment = UITextAlignmentCenter;
+		statusLabel.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:statusLabel];
         
 		arrowImage = [[CALayer alloc] init];
@@ -142,9 +141,6 @@
     [formatter setDateStyle:NSDateFormatterMediumStyle];
     [formatter setTimeStyle:NSDateFormatterMediumStyle];
     lastUpdatedLabel.text = [NSString stringWithFormat:@"Last Updated: %@", [formatter stringFromDate:date]];
-    if (_firstRefresh == YES) {
-        _firstRefresh = NO;
-    }
 }
 
 - (void)setState:(PullToRefreshViewState)state_ {
