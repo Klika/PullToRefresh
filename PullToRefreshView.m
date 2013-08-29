@@ -74,14 +74,14 @@
 		lastUpdatedLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		lastUpdatedLabel.font = [UIFont systemFontOfSize:12.0f];
 		lastUpdatedLabel.backgroundColor = [UIColor clearColor];
-		lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
+		lastUpdatedLabel.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:lastUpdatedLabel];
         
 		statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 48.0f, self.frame.size.width, 20.0f)];
 		statusLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		statusLabel.font = [UIFont boldSystemFontOfSize:13.0f];
 		statusLabel.backgroundColor = [UIColor clearColor];
-		statusLabel.textAlignment = UITextAlignmentCenter;
+		statusLabel.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:statusLabel];
         
 		arrowImage = [[CALayer alloc] init];
@@ -166,7 +166,9 @@
 			statusLabel.text = @"Pull down to refresh...";
 			[self showActivity:NO animated:NO];
             [self setImageFlipped:NO];
-			[self refreshLastUpdatedDate];
+            if (!scrollView.isDragging) {
+                [self refreshLastUpdatedDate];
+            }
             scrollView.contentInset = UIEdgeInsetsZero;
 			break;
             
@@ -194,6 +196,11 @@
             } else if (state == PullToRefreshViewStateNormal) {
                 if (scrollView.contentOffset.y < -65.0f)
                     [self setState:PullToRefreshViewStateReady];
+                if (!scrollView.isTracking) {
+                    [self.layer setHidden:YES];
+                } else {
+                    [self.layer setHidden:NO];
+                }
             } else if (state == PullToRefreshViewStateLoading) {
                 if (scrollView.contentOffset.y >= 0)
                     scrollView.contentInset = UIEdgeInsetsZero;
