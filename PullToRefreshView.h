@@ -57,7 +57,7 @@ typedef enum {
 - (void)finishedLoading;
 - (void)setState:(PullToRefreshViewState)state_;
 
-- (id)initWithScrollView:(UIScrollView *)scrollView;
+- (id)initWithScrollView:(UIScrollView *)scrollView grayscale:(BOOL)grayscale;
 
 @end
 
