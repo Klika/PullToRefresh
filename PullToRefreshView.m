@@ -68,7 +68,6 @@
         [scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:NULL];
         
 		self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
         
 		lastUpdatedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 30.0f, self.frame.size.width, 20.0f)];
 		lastUpdatedLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -92,6 +91,8 @@
             lastUpdatedLabel.textColor = statusLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1];
        		arrowImage.contents = (id) [UIImage imageNamed:@"arrowGray"].CGImage;
         } else {
+       		self.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
+            
             lastUpdatedLabel.textColor = TEXT_COLOR;
             lastUpdatedLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
             lastUpdatedLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
