@@ -60,7 +60,7 @@
     }];
 }
 
-- (id)initWithScrollView:(UIScrollView *)scroll {
+- (id)initWithScrollView:(UIScrollView *)scroll grayscale:(BOOL)grayscale {
     CGRect frame = CGRectMake(0.0f, 0.0f - scroll.bounds.size.height, scroll.bounds.size.width, scroll.bounds.size.height);
     
     if ((self = [super initWithFrame:frame])) {
@@ -73,9 +73,6 @@
 		lastUpdatedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 30.0f, self.frame.size.width, 20.0f)];
 		lastUpdatedLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		lastUpdatedLabel.font = [UIFont systemFontOfSize:12.0f];
-		lastUpdatedLabel.textColor = TEXT_COLOR;
-		lastUpdatedLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
-		lastUpdatedLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		lastUpdatedLabel.backgroundColor = [UIColor clearColor];
 		lastUpdatedLabel.textAlignment = UITextAlignmentCenter;
 		[self addSubview:lastUpdatedLabel];
@@ -83,9 +80,6 @@
 		statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0f, frame.size.height - 48.0f, self.frame.size.width, 20.0f)];
 		statusLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		statusLabel.font = [UIFont boldSystemFontOfSize:13.0f];
-		statusLabel.textColor = TEXT_COLOR;
-		statusLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
-		statusLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
 		statusLabel.backgroundColor = [UIColor clearColor];
 		statusLabel.textAlignment = UITextAlignmentCenter;
 		[self addSubview:statusLabel];
@@ -93,7 +87,21 @@
 		arrowImage = [[CALayer alloc] init];
 		arrowImage.frame = CGRectMake(10.0f, frame.size.height - 60.0f, 24.0f, 52.0f);
 		arrowImage.contentsGravity = kCAGravityResizeAspect;
-		arrowImage.contents = (id) [UIImage imageNamed:@"arrow"].CGImage;
+        
+        if (grayscale) {
+            lastUpdatedLabel.textColor = statusLabel.textColor = [UIColor colorWithWhite:0.5 alpha:1];
+       		arrowImage.contents = (id) [UIImage imageNamed:@"arrowGray"].CGImage;
+        } else {
+            lastUpdatedLabel.textColor = TEXT_COLOR;
+            lastUpdatedLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
+            lastUpdatedLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
+            
+            statusLabel.textColor = TEXT_COLOR;
+            statusLabel.shadowColor = [UIColor colorWithWhite:0.9f alpha:1.0f];
+            statusLabel.shadowOffset = CGSizeMake(0.0f, 1.0f);
+            
+       		arrowImage.contents = (id) [UIImage imageNamed:@"arrow"].CGImage;
+        }
         
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
 		if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
